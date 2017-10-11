@@ -72,22 +72,24 @@ acceptance = 1-mean(duplicated(chain[-(1:burnIn),]))  # proportion of acceptance
 
 ### Summary: #######################
 
-par(mfrow = c(2,3)) # divide the window by 2*3
-hist(chain[-(1:burnIn),1],nclass=30,  main="Posterior of a", xlab="True value = red line" )
-abline(v = mean(chain[-(1:burnIn),1]))
-abline(v = trueA, col="red" )
-hist(chain[-(1:burnIn),2],nclass=30, main="Posterior of b", xlab="True value = red line")
-abline(v = mean(chain[-(1:burnIn),2]))
-abline(v = trueB, col="red" )
-hist(chain[-(1:burnIn),3],nclass=30, main="Posterior of sd", xlab="True value = red line")
-abline(v = mean(chain[-(1:burnIn),3]) )
-abline(v = trueSd, col="red" )
-plot(chain[-(1:burnIn),1], type = "l", xlab="True value = red line" , main = "Chain values of a" )
-abline(h = trueA, col="red" )
-plot(chain[-(1:burnIn),2], type = "l", xlab="True value = red line" , main = "Chain values of b" )
-abline(h = trueB, col="red" )
-plot(chain[-(1:burnIn),3], type = "l", xlab="True value = red line" , main = "Chain values of sd" )
-abline(h = trueSd, col="red" )
+graph_function<- function(chain, burnIn)
+{ par(mfrow = c(2,3))
+  alphabet<-c('a','b','sd')
+  true<-c(trueA, trueB, trueSd)
+  for(i in 1:3)
+  {
+    hist(chain[-(1:burnIn), i], nclass=30, main=paste("Posterior of",alphabet[i]),xlab="True value = red line")
+    abline(v=mean(chain[-(1:burnIn), i]))
+    abline(v= true[i], col='red')}
+  for(j in 1:3)
+  { plot(chain[-(1: burnIn), j], type = 'l', xlab = 'True value=red line',main = paste('Chain value of',alphabet[j]))
+    abline(h=true[j], col='red')}
+  
+}
+graph_function(chain, burnIn)
+
+
+
 
 # for comparison:
 summary(lm(y~x))
