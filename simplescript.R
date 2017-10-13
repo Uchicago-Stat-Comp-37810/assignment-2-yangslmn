@@ -19,20 +19,22 @@ slopelikelihoods <- lapply(seq(3, 7, by=.05), slopevalues ) # apply the slopeval
 plot (seq(3, 7, by=.05), slopelikelihoods , type="l", xlab = "values of slope parameter a", ylab = "Log likelihood")
 
 
+compare_outcomes<-function(iterations)
+{outputmatrix<-array(dim=c(2,10))
+burnIn<-iterations *0.5
+for (i in 1:10)
+{  startvalue_random<-c(runif(1,0,10), runif(1, 0,8), runif(1,0,11))
+chain<-run_metropolis_MCMC(startvalue_random, iterations)
+outputmatrix[1,i]<-mean(chain[-(1: burnIn),][,1])
+outputmatrix[2,i]<-sd(chain[-(1:burnIn),][,1])
 
+}
+return(outputmatrix)
+}
 
-
-startvalue = c(4,0,10) # set the start point 
-chain = run_metropolis_MCMC(startvalue, 10000)
 
 burnIn = 5000 # no of trial
 acceptance = 1-mean(duplicated(chain[-(1:burnIn),]))  # proportion of acceptance. mean of no.logic vector.
 
 
-graph_function(chain, burnIn)
-
-
-
-
-# for comparison:
-summary(lm(y~x))
+compare_outcomes(1000)
