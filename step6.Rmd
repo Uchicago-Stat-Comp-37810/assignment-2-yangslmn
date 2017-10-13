@@ -2,7 +2,10 @@
 title: "step6"
 output: html_document
 ---
+```{r}
+# name: Seulmin, Yang
 
+```
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 source('C:/Users/yangs/Desktop/2017 autunm/statistical computing/assignment-2-yangslmn/source script.R')
